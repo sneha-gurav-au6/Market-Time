@@ -9,7 +9,7 @@ const passport = require("passport");
 require("./config/passport")(passport);
 const app = express();
 
-const PORT = process.env.port || 5000;
+const PORT = process.env.PORT || 5000;
 app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: false }));
 
