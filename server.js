@@ -8,7 +8,7 @@ const passport = require("passport");
 require("./config/passport")(passport);
 const app = express();
 
-const port = process.env.port || 5000;
+const PORT = process.env.port || 5000;
 app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: false }));
 
@@ -23,6 +23,6 @@ app.get("/", (req, res) => {
 
 app.use(userRoutes);
 app.use(productRoutes);
-app.listen(port, () => {
+app.listen(PORT, () => {
     console.log("server started");
 });
