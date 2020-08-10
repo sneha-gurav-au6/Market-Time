@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
 const bodyParser = require("body-parser");
+const cors = require("cors");
 require("./utils/cloudinary");
 require("./db");
 const passport = require("passport");
@@ -13,16 +14,16 @@ app.use("/uploads", express.static("uploads"));
 app.use(bodyParser.json()).use(bodyParser.urlencoded({ extended: false }));
 
 app.use(passport.initialize());
-
+app.use(cors());
 const userRoutes = require("./Routes/userRoutes/userRoutes");
 const productRoutes = require("./Routes/productRoutes/productRoutes");
 
 app.get("/", (req, res) => {
-    res.send("hello");
+  res.send("hello");
 });
 
 app.use(userRoutes);
 app.use(productRoutes);
 app.listen(PORT, () => {
-    console.log("server started");
+  console.log("server started");
 });
