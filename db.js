@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-// const mongo_URI = `mongodb+srv://imran:imran@capstone.efeef.mongodb.net/test?retryWrites=true&w=majority`;
-const mongo_URI = "mongodb://localhost:27017/Capstone";
+ const mongo_URI = `mongodb+srv://imran:imran@capstone.efeef.mongodb.net/test?retryWrites=true&w=majority`;
+// const mongo_URI = "mongodb://localhost:27017/Capstone";
 mongoose
     .connect(mongo_URI, {
         useNewUrlParser: true,
