@@ -40,4 +40,5 @@ router.post(
 router.get("/allProduct/:page", getAllProducts);
 router.get("/singleProduct/:id", singleProduct);
 router.get("/filterProduct/:page", filterProduct);
+
 module.exports = router;

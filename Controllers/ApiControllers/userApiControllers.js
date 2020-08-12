@@ -185,7 +185,9 @@ module.exports = {
   },
   addTowishlist: async (req, res) => {
     const userId = req.user.id;
-    const productId = req.params.productId;
+    const proID= req.params.productId;
+    const productId= proID.slice(10)
+    console.log(productId)
     try {
       const data = await User.findById(userId);
       if (data.myWishlist.includes(productId)) {
@@ -222,32 +224,6 @@ module.exports = {
       });
   },
 
-  userMyfav: async (req, res) => {
-    const id = req.params.property_id;
-    const user = req.user;
-    constproduct = await Property.findById(id);
-    try {
-      const user1 = await User.updateOne(
-        {
-          _id: user._id,
-        },
-        {
-          $push: {
-            favourite: product,
-          },
-        }
-      );
-      const data = User.findById(user._id);
-      res.json({
-        message:
-          "Property Added to your Favourite list!!You can Get owner details also",
-        product: product,
-      });
-    } catch (err) {
-      res.status(500).send("server error");
-      console.log(err.massage);
-    }
-  },
   userEmailDetails: async (req, res) => {
     const userid = req.user.id;
     const user1id = await User.findById(userid);
