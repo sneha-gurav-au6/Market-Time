@@ -27,9 +27,9 @@ module.exports = {
         const startIndex = (page - 1) * 12;
         const endIndex = page * 12;
         const sort = {};
-        if (city !== undefined) sort.city = city;
-        if (category !== undefined) sort.category = category;
-        if (title !== undefined) sort.title = new RegExp(title, "g");
+        if (city !== "") sort.city = city;
+        if (category !== "") sort.category = category;
+        if (title !== "") sort.title = new RegExp(title, "g");
         Product.find(sort)
             .sort({ date: -1 })
             .then((data) => {

@@ -62,6 +62,7 @@ module.exports = {
           facebook: user.facebook,
           youtube: user.youtube,
           instagram: user.instagram,
+          
         };
         jwt.sign(
           payload,
