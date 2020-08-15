@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../../Model/User");
+const Product = require("../../Model/Product");
 
 module.exports = {
   getUserProfile: async (req, res) => {
@@ -14,30 +15,44 @@ module.exports = {
   },
 
   getWishList: async (req, res) => {
-    const userId = req.user.id;
+    const user = req.user.id;
     try {
-      const userWishList = await User.findById(userId);
-      console.log(userWishList.myWishlist);
-      const wishList = userWishList.myWishlist;
-      const sliced = wishList.slice(0, 11);
+      const userWishList = await User.findById(user);
+      // console.log(userWishList.myWishlist);
+      // const wishList = userWishList.myWishlist;
+      // const sliced = wishList.slice(0, 11);
 
-      res.status(200).send(wishList);
-    } catch {
+      // res.status(200).send(wishList);
+
+      const favourite = userWishList.myWishlist;
+      const arr = [];
+      for (i = 0; i < favourite.length; i++) {
+        var properties = await Product.find({ _id: favourite[i] });
+        arr.push(properties);
+      }
+      res.status(200).json(arr);
+    } catch (error) {
       res.status(400).send("No products found in Wishlist");
+      console.log(error);
     }
   },
 
-  getMyProduct:async (req,res)=>{
-      const userId = req.user.id;
-      try{
-          const userProducts = await User.findById(userId);
-          const myProduct = userProducts.myProducts
+  getMyProduct: async (req, res) => {
+    const userId = req.user.id;
+    try {
+      const userProducts = await User.findById(userId);
+      const myProduct = userProducts.myProducts;
 
-        res.status
-
-
-      }catch{
-          res.status(400).send("Product Not Found")
+      const favourite = myProduct;
+      const arr = [];
+      for (i = 0; i < favourite.length; i++) {
+        var properties = await Product.find({ _id: favourite[i] });
+        arr.push(properties);
       }
-  }
+      res.status(200).json(arr);
+    } catch (error) {
+      res.status(400).send("No products found in Wishlist");
+      console.log(error);
+    }
+  },
 };
