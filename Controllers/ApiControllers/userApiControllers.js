@@ -62,7 +62,6 @@ module.exports = {
           facebook: user.facebook,
           youtube: user.youtube,
           instagram: user.instagram,
-          
         };
         jwt.sign(
           payload,
@@ -186,9 +185,9 @@ module.exports = {
   },
   addTowishlist: async (req, res) => {
     const userId = req.user.id;
-    const proID= req.params.productId;
-    const productId= proID.slice(10)
-    console.log(productId)
+    const proID = req.params.productId;
+    const productId = proID.slice(10);
+    console.log(productId);
     try {
       const data = await User.findById(userId);
       if (data.myWishlist.includes(productId)) {
@@ -210,7 +209,7 @@ module.exports = {
   deleteFromWishList: async (req, res) => {
     const userid = req.user.id;
     const productId = req.params.productId;
-
+console.log(productId)
     await User.updateOne(
       { _id: userid },
       {

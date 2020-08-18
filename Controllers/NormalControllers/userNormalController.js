@@ -47,8 +47,8 @@ module.exports = {
       const arr = [];
       for (i = 0; i < favourite.length; i++) {
         var properties = await Product.find({ _id: favourite[i] });
-        arr.push(properties);
       }
+      arr.push(properties);
       res.status(200).json(arr);
     } catch (error) {
       res.status(400).send("No products found in Wishlist");
