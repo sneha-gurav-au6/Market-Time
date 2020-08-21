@@ -10,7 +10,7 @@ module.exports = {
     addProducts: async (req, res) => {
         const newProduct = {
             user: req.user.id,
-            title: req.body.title,
+            title: req.body.title.toLowerCase(),
             category: req.body.category,
             city: req.body.city,
             price: req.body.price,

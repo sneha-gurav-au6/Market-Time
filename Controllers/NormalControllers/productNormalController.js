@@ -23,7 +23,7 @@ module.exports = {
     const city = req.query.city;
     const category = req.query.category;
     console.log(category);
-    const title = req.query.title;
+    const title = req.query.title.toLowerCase();
     const startIndex = (page - 1) * 12;
     const endIndex = page * 12;
     const sort = {};
