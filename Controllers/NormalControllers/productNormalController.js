@@ -18,12 +18,21 @@ module.exports = {
       data: singleProduct,
     });
   },
+
+
+
+
   filterProduct: (req, res) => {
+    const capitalLetters = (s) => {
+      return s.trim().split(" ").map(i => i[0].toUpperCase() + i.substr(1)).reduce((ac, i) => `${ac} ${i}`);
+    }
     const page = req.params.page;
     const city = req.query.city;
     const category = req.query.category;
     console.log(category);
-    const title = req.query.title.toLowerCase();
+    const title1 = req.query.title
+    const title=capitalLetters(title1)
+    console.log(title)
     const startIndex = (page - 1) * 12;
     const endIndex = page * 12;
     const sort = {};
