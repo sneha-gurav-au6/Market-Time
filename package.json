@@ -6,7 +6,6 @@
     "scripts": {
         "dev": "node server.js",
         "start": "npx nodemon server.js"
-        
     },
     "author": "imran shaikh and sneha gurav",
     "license": "ISC",
@@ -25,7 +24,8 @@
         "nodemailer": "^6.4.11",
         "nodemailer-smtp-transport": "^2.7.4",
         "passport": "^0.4.1",
-        "passport-jwt": "^4.0.0"
+        "passport-jwt": "^4.0.0",
+        "validator": "^13.1.1"
     },
     "devDependencies": {
         "nodemon": "^2.0.4"
