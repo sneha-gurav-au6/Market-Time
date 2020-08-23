@@ -25,7 +25,7 @@ const {errors,isValid} = validateRegisterData(req.body)
     console.log(req.body);
     const user = await User.findOne({ "local.email": req.body.email });
     if (user) {
-      return res.status(400).send("Email Already Exists, Please Login");
+      return res.status(400).json({message:"Email Already Exists, Please Login"});
     } else {
       const newUser = new User({
         method: "local",
@@ -69,7 +69,7 @@ if(!isValid){
     User.userFind(email, password)
       .then((user) => {
         if (!user) {
-          return res.status(404).json({ message: "Invalid Creadintials" });
+          return res.status(404).json({ message: "User not existed, Please register!!" });
         }
         const payload = {
           id: user.id,
@@ -96,7 +96,7 @@ if(!isValid){
         );
       })
       .catch((err) => {
-        res.status(401).send("Incorrect Credentials");
+        res.status(401).json({message:"Incorrect Credentials"});
       });
   },
   // logout: (req, res) => {
