@@ -13,7 +13,8 @@ const {
   editprofile,
   deleteFromWishList,
   userEmailDetails,
-  forgetpassword
+  forgetpassword,
+  updatePassword
 } = require("../../Controllers/ApiControllers/userApiControllers");
 
 const {
@@ -60,4 +61,5 @@ router.post(
 );
 
 router.post("/userForgetPassword",forgetpassword)
+router.post("/updatePassword",updatePassword)
 module.exports = router;
