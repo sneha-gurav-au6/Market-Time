@@ -5,27 +5,25 @@ const cloudinary = require("cloudinary");
 const nodemailer = require("nodemailer");
 const Product = require("../../Model/Product");
 const smtpTransport = require("nodemailer-smtp-transport");
-const validateRegisterData  = require("../../config/validation/registerValidator")
-const  validateLoginData = require("../../config/validation/loginValidator")
-
-
+const validateRegisterData = require("../../config/validation/registerValidator");
+const validateLoginData = require("../../config/validation/loginValidator");
 
 module.exports = {
-
   //Register user
   registerUser: async (req, res) => {
+    const { errors, isValid } = validateRegisterData(req.body);
 
-const {errors,isValid} = validateRegisterData(req.body)
-
-//checking for validation
-  if (!isValid) {
-    return res.status(400).json(errors);               
-  }
+    //checking for validation
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
 
     console.log(req.body);
     const user = await User.findOne({ "local.email": req.body.email });
     if (user) {
-      return res.status(400).json({message:"Email Already Exists, Please Login"});
+      return res
+        .status(400)
+        .json({ message: "Email Already Exists, Please Login" });
     } else {
       const newUser = new User({
         method: "local",
@@ -59,17 +57,19 @@ const {errors,isValid} = validateRegisterData(req.body)
     }
   },
   loginUser: async (req, res) => {
-const { errors, isValid} =validateLoginData(req.body)
+    const { errors, isValid } = validateLoginData(req.body);
 
-if(!isValid){
-     return res.status(400).json(errors);       
-}
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
     const email = req.body.email;
     const password = req.body.password;
     User.userFind(email, password)
       .then((user) => {
         if (!user) {
-          return res.status(404).json({ message: "User not existed, Please register!!" });
+          return res
+            .status(404)
+            .json({ message: "User not existed, Please register!!" });
         }
         const payload = {
           id: user.id,
@@ -96,33 +96,10 @@ if(!isValid){
         );
       })
       .catch((err) => {
-        res.status(401).json({message:"Incorrect Credentials"});
+        res.status(401).json({ message: "Incorrect Credentials" });
       });
   },
-  // logout: (req, res) => {
-  //     const user = req.user;
-  //     User.findOneAndUpdate(
-  //         {
-  //             _id: user._id,
-  //         },
-  //         {
-  //             $set: {
-  //                 token: null,
-  //             },
-  //         }
-  //     )
-  //         .then(function (user) {
-  //             res.json({
-  //                 message: "logged Out Successfully!! Visit Us Again",
-  //                 status: 200,
-  //             });
-  //         })
-  //         .catch(function (err) {
-  //             res.status(401).json({
-  //                 message: "Missing token, Cant Logout",
-  //             });
-  //         });
-  // },
+
   googleLogin: async (req, res) => {
     let payId;
 
@@ -229,7 +206,7 @@ if(!isValid){
   deleteFromWishList: async (req, res) => {
     const userid = req.user.id;
     const productId = req.params.productId;
-console.log(productId)
+    console.log(productId);
     await User.updateOne(
       { _id: userid },
       {
@@ -294,5 +271,57 @@ console.log(productId)
         );
       }
     });
+  },
+
+  forgetpassword: async (req, res) => {
+   
+    User.findOne({ "local.email": req.body.email }, function (error, userData) {
+      var transporter = nodemailer.createTransport({
+        // service: 'gmail',//smtp.gmail.com  //in place of service use host...
+
+        // auth: {
+        //     user: 'ashutosh.choubey@codeclouds.in',
+        //     pass: 'ashu@q@w3e4r%'
+        // }
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+          user: "snehagurav37@gmail.com",
+          pass: "yspqpyelalsfcjmi"
+        }
+
+      });
+      var currentDateTime = new Date();
+      var mailOptions = {
+        from: "snehagurav37@gmail.com",
+        to: req.body.email,
+        subject: 'Password Reset',
+        // text: 'That was easy!',
+        html: "<h1>Welcome To Daily Task Report ! </h1><p>\
+            <h3>Hello "+ userData.name + "</h3>\
+            If You are requested to reset your password then click on below link<br/>\
+            <a href='http://localhost:3000/change-password/"+ currentDateTime + "+++" + userData.local.email + "'>Click On This Link</a>\
+            </p>"
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+          User.updateOne({ "local.email": userData.local.email }, {
+            token: currentDateTime,
+
+          }, { multi: true }, function (err, affected, resp) {
+            return res.status(200).json({
+              success: false,
+              msg: info.response,
+              userlist: resp
+            });
+          })
+        }
+      });
+    })
   },
 };

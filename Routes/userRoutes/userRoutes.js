@@ -13,6 +13,7 @@ const {
   editprofile,
   deleteFromWishList,
   userEmailDetails,
+  forgetpassword
 } = require("../../Controllers/ApiControllers/userApiControllers");
 
 const {
@@ -58,12 +59,5 @@ router.post(
   userEmailDetails
 );
 
-//get routes
-// router.get(
-//   "/userProfile",
-//   passport.authenticate("jwt", { session: false }),
-//   getUserProfile
-// );
-
-// router.post("/user/logout",auth, logout);
+router.post("/userForgetPassword",forgetpassword)
 module.exports = router;
